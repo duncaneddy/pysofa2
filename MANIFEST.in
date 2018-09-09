@@ -1,0 +1,3 @@
+include src/sofa.h
+include src/sofam.h
+recursive-include pysofa2/test/*

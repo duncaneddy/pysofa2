@@ -806,7 +806,52 @@ def Fave03(t):
 # void iauC2ixy(double date1, double date2, double x, double y,
 #               double rc2i[3][3]);
 
-# # void iauC2ixys(double x, double y, double s, double rc2i[3][3]);
+_sofa.iauC2ixys.argtypes = [
+    _ct.c_double, #x
+    _ct.c_double, #y
+    _ct.c_double, #s
+    _ndpointer(shape=(3,3), dtype=float, flags='C') #rc2i
+] 
+
+def C2ixys(x, y, s):
+    '''Form the celestial to intermediate-frame-of-date matrix given the CIP
+    X,Y and the CIO locator s.
+
+    Args:
+        x,y (double): Celestial Intermediate Pole (Note 1)
+        s (double): the CIO locator s (Note 2)
+
+    Returns:
+        rc2i (:obj:`np.ndarray`): celestial-to-intermediate matrix (Note 3)
+
+    Notes:
+        1. The Celestial Intermediate Pole coordinates are the x,y
+        components of the unit vector in the Geocentric Celestial
+        Reference System.
+   
+        2. The CIO locator s (in radians) positions the Celestial
+        Intermediate Origin on the equator of the CIP.
+   
+        3. The matrix rc2i is the first stage in the transformation from
+        celestial to terrestrial coordinates:
+   
+           [TRS] = RPOM * R_3(ERA) * rc2i * [CRS]
+   
+                 = RC2T * [CRS]
+   
+        where [CRS] is a vector in the Geocentric Celestial Reference
+        System and [TRS] is a vector in the International Terrestrial
+        Reference System (see IERS Conventions 2003), ERA is the Earth
+        Rotation Angle and RPOM is the polar motion matrix.
+    '''
+
+    # Initialize return value
+    rc2i = _np.asmatrix(_np.zeros(shape=(3,3), dtype=float, order='C'))
+
+    # Main function call
+    _sofa.iauC2ixys(x, y, s, rc2i)
+
+    return _np.array(rc2i, dtype=float)
 
 # void iauC2t00a(double tta, double ttb, double uta, double utb,
 #                double xp, double yp, double rc2t[3][3]);
@@ -883,7 +928,50 @@ def Fave03(t):
 # void iauPnm06a(double date1, double date2, double rnpb[3][3]);
 # void iauPnm80(double date1, double date2, double rmatpn[3][3]);
 
-# # void iauPom00(double xp, double yp, double sp, double rpom[3][3]);
+_sofa.iauPom00.argtypes = [
+    _ct.c_double, #xp
+    _ct.c_double, #yp
+    _ct.c_double, #sp
+    _ndpointer(shape=(3,3), dtype=float, flags='C') #rpom
+]
+
+def Pom00(xp, yp, sp):
+    '''Form the matrix of polar motion for a given date, IAU 2000.
+
+    Args:
+        xp,yp (double): coordinates of the pole (radians, Note 1)
+        sp (double): the TIO locator s' (radians, Note 2)
+
+    Returns:
+        rpom (:obj:np.matrix): polar-motion matrix (Note 3)
+
+    Notes:
+        1. The arguments xp and yp are the coordinates (in radians) of the
+        Celestial Intermediate Pole with respect to the International
+        Terrestrial Reference System (see IERS Conventions 2003),
+        measured along the meridians to 0 and 90 deg west respectively.
+   
+        2. The argument sp is the TIO locator s', in radians, which
+        positions the Terrestrial Intermediate Origin on the equator.  It
+        is obtained from polar motion observations by numerical
+        integration, and so is in essence unpredictable.  However, it is
+        dominated by a secular drift of about 47 microarcseconds per
+        century, and so can be taken into account by using s' = -47*t,
+        where t is centuries since J2000.0.  The function iauSp00
+        implements this approximation.
+   
+        3. The matrix operates in the sense V(TRS) = rpom * V(CIP), meaning
+        that it is the final rotation when computing the pointing
+        direction to a celestial source.        
+    '''
+
+    # Initialize return matrix
+    rpom = _np.asmatrix(_np.zeros(shape=(3,3), dtype=float, order='C'))
+
+    # Main funciton call
+    _sofa.iauPom00(float(xp), float(yp), float(sp), rpom)
+
+    return _np.array(rpom, dtype=float)
 
 # void iauPr00(double date1, double date2,
 #              double *dpsipr, double *depspr);
@@ -3534,9 +3622,50 @@ def Utcut1(utc1, utc2, dut1):
 # int iauTf2d(char s, int ihour, int imin, double sec, double *days);
 
 # /* VectorMatrix/BuildRotations */
-# # void iauRx(double phi, double r[3][3]);
-# # void iauRy(double theta, double r[3][3]);
-# # void iauRz(double psi, double r[3][3]);
+
+_sofa.iauRx.argtypes = [
+    _ct.c_double, #phi
+    _ndpointer(shape=(3,3), dtype=float, flags='C') #r
+] 
+
+def Rx(phi, r):
+    '''Rotate a r-matrix about the x-axis.
+    '''
+    r2 = _req_shape_c(r, float, (3,3)).copy()
+    _sofa.iauRx(float(phi), r2)
+    return _np.array(r2, dtype=float)
+
+_sofa.iauRy.argtypes = [
+    _ct.c_double, #theta
+    _ndpointer(shape=(3,3), dtype=float, flags='C') #r
+] 
+
+def Ry(theta, r):
+    ''' Rotate a r-matrix about the y-axis.
+    '''
+    r2 = _req_shape_c(r, float, (3,3)).copy()
+
+    # Main funciton call
+    _sofa.iauRy(float(theta), r2)
+
+    return _np.array(r2, dtype=float)
+
+
+_sofa.iauRz.argtypes = [
+    _ct.c_double, #psi
+    _ndpointer(shape=(3,3), dtype=float, flags='C') #r
+]
+
+def Rz(psi, r):
+    '''Rotate a r-matrix about the z-axis.
+    '''
+
+    r2 = _req_shape_c(r, float, (3,3)).copy()
+    
+    # Main function call
+    _sofa.iauRz(float(psi), r2)
+
+    return _np.array(r2, dtype=float)
 
 # /* VectorMatrix/CopyExtendExtract */
 # void iauCp(double p[3], double c[3]);

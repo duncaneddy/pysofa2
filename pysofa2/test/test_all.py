@@ -99,6 +99,44 @@ def test_faur03():
 def test_fave03():
     assert Fave03(0.80) == approx(3.424900460533758000, 1e-12) 
 
+def test_c2ixys():
+    x =  0.5791308486706011000e-3
+    y =  0.4020579816732961219e-4
+    s = -0.1220040848472271978e-7
+
+    rc2i = C2ixys(x, y, s)
+
+    assert rc2i[0, 0] == approx(0.9999998323037157138, 1e-12)
+    assert rc2i[0, 1] == approx(0.5581984869168499149e-9, 1e-12)
+    assert rc2i[0, 2] == approx(-0.5791308491611282180e-3, 1e-12)
+
+    assert rc2i[1, 0] == approx(-0.2384261642670440317e-7, 1e-12)
+    assert rc2i[1, 1] == approx(0.9999999991917468964, 1e-12)
+    assert rc2i[1, 2] == approx(-0.4020579110169668931e-4, 1e-12)
+
+    assert rc2i[2, 0] == approx(0.5791308486706011000e-3, 1e-12)
+    assert rc2i[2, 1] == approx(0.4020579816732961219e-4, 1e-12)
+    assert rc2i[2, 2] == approx(0.9999998314954627590, 1e-12)
+
+def test_pom00():
+    xp =  2.55060238e-7
+    yp =  1.860359247e-6
+    sp = -0.1367174580728891460e-10
+
+    rpom = Pom00(xp, yp, sp)
+
+    assert rpom[0, 0] == approx(0.9999999999999674721, 1e-12)
+    assert rpom[0, 1] == approx(-0.1367174580728846989e-10, 1e-16)
+    assert rpom[0, 2] == approx(0.2550602379999972345e-6, 1e-16)
+
+    assert rpom[1, 0] == approx(0.1414624947957029801e-10, 1e-16)
+    assert rpom[1, 1] == approx(0.9999999999982695317, 1e-12)
+    assert rpom[1, 2] == approx(-0.1860359246998866389e-5, 1e-16)
+
+    assert rpom[2, 0] == approx(-0.2550602379741215021e-6, 1e-16)
+    assert rpom[2, 1] == approx(0.1860359247002414021e-5, 1e-16)
+    assert rpom[2, 2] == approx(0.9999999999982370039, 1e-12)
+
 def test_s00():
     x = 0.5791308486706011000e-3
     y = 0.4020579816732961219e-4
@@ -196,7 +234,7 @@ def test_eqeq94():
     assert eqeq == approx(0.5357758254609256894e-4, 1e-17)
 
 def test_era00():
-    era00 = Era00(2400000.5, 54388.0);
+    era00 = Era00(2400000.5, 54388.0)
 
     assert era00 == approx(0.4022837240028158102, 1e-12)
 
@@ -364,3 +402,66 @@ def test_utcut1():
 
     assert u1 == approx(2453750.5, 1e-6)
     assert u2 == approx(0.8921045608981481481, 1e-12)
+
+def test_rx():
+    phi = 0.3456789
+
+    r = _np.array([[2.0, 3.0, 2.0],
+                  [3.0, 2.0, 3.0],
+                  [3.0, 4.0, 5.0]])
+
+    r = Rx(phi, r)
+
+    assert r[0, 0] == approx(2.0, 0.0)
+    assert r[0, 1] == approx(3.0, 0.0)
+    assert r[0, 2] == approx(2.0, 0.0)
+
+    assert r[1, 0] == approx(3.839043388235612460, 1e-12)
+    assert r[1, 1] == approx(3.237033249594111899, 1e-12)
+    assert r[1, 2] == approx(4.516714379005982719, 1e-12)
+
+    assert r[2, 0] == approx(1.806030415924501684, 1e-12)
+    assert r[2, 1] == approx(3.085711545336372503, 1e-12)
+    assert r[2, 2] == approx(3.687721683977873065, 1e-12)
+
+def test_ry():
+    theta = 0.3456789
+
+    r = _np.array([[2.0, 3.0, 2.0],
+                   [3.0, 2.0, 3.0],
+                   [3.0, 4.0, 5.0]])
+
+    r = Ry(theta, r)
+
+    assert r[0, 0] == approx(0.8651847818978159930, 1e-12)
+    assert r[0, 1] == approx(1.467194920539316554, 1e-12)
+    assert r[0, 2] == approx(0.1875137911274457342, 1e-12)
+
+    assert r[1, 0] == approx(3, 1e-12)
+    assert r[1, 1] == approx(2, 1e-12)
+    assert r[1, 2] == approx(3, 1e-12)
+
+    assert r[2, 0] == approx(3.500207892850427330, 1e-12)
+    assert r[2, 1] == approx(4.779889022262298150, 1e-12)
+    assert r[2, 2] == approx(5.381899160903798712, 1e-12)
+
+def test_rz():
+    psi = 0.3456789
+
+    r = _np.array([[2.0, 3.0, 2.0],
+                   [3.0, 2.0, 3.0],
+                   [3.0, 4.0, 5.0]])
+
+    r = Rz(psi, r)
+
+    assert r[0, 0] == approx(2.898197754208926769, 1e-12)
+    assert r[0, 1] == approx(3.500207892850427330, 1e-12)
+    assert r[0, 2] == approx(2.898197754208926769, 1e-12)
+
+    assert r[1, 0] == approx(2.144865911309686813, 1e-12)
+    assert r[1, 1] == approx(0.865184781897815993, 1e-12)
+    assert r[1, 2] == approx(2.144865911309686813, 1e-12)
+
+    assert r[2, 0] == approx(3.0, 1e-12)
+    assert r[2, 1] == approx(4.0, 1e-12)
+    assert r[2, 2] == approx(5.0, 1e-12)

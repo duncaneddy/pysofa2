@@ -1,3 +1,4 @@
 include src/sofa.h
 include src/sofam.h
+include README.md
 recursive-include pysofa2/test/*

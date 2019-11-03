@@ -2,34 +2,41 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, Extension, find_packages
-import glob
 import pathlib
+import glob
 
-# Load description
-with open('README.md') as f:
-    long_desc = f.read()
-
+# Build Library
 sofa_lib = Extension("pysofa2._sofa_c",
                        glob.glob('./src/*.c'),
                        depends=["./src/sofa.h", "./src/sofam.h"],
                        include_dirs=["./src"])
 
+
+# Load description
+about = {}
+with open(pathlib.Path.cwd() / 'pysofa2' / '__about__.py') as fobj:
+    exec(fobj.read(), about)
+
+# Read Requirements
+requirements = []
+with open(pathlib.Path.cwd() / 'requirements.txt') as fp:
+    for line in fp:
+        requirements.append(line.strip())
+
 # Setup information
 setup(
     name='pysofa2',
-    version='18.01.30.4',
+    version=about['__version__'],
     packages = find_packages(),
-    install_requires = [
-        'numpy>=1.14.0'
-    ],
+    install_requires = requirements,
     ext_modules = [sofa_lib],
     include_package_data = True,
-    author               = 'Duncan Eddy',
-    author_email         = 'duncan.eddy@gmail.com',
-    maintainer           = 'Duncan Eddy',
-    maintainer_email     = 'duncan.eddy@gmail.com',
-    description          = 'A wrapper of the International Astronomical Union\'s SOFA lbrary',
-    long_description     = long_desc,
-    long_description_content_type='text/markdown',
-    url                  = 'https://gitlab.com/deddy/pysofa2'
+    author               = about['__author__'],
+    author_email         = about['__author_email__'],
+    maintainer           = about['__author__'],
+    maintainer_email     = about['__author_email__'],
+    description          = about['__description__'],
+    long_description     = about['__long_description__'],
+    long_description_content_type = about['__long_description_content_type__'],
+    url                  = about['__url__']
 )

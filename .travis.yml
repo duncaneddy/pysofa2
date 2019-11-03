@@ -11,7 +11,7 @@ dist: xenial
 
 before_script:
   - pip install -U -r requirements.txt
-  - pip install -U -r dev_requirements.txt
+  - pip install -U -r requirements-dev.txt
 
 script:
   - pytest --cov=pysofa2

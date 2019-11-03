@@ -27,6 +27,8 @@ after_success:
 
 deploy:
   provider: pypi
+  user: $TWINE_USERNAME
+  password: $TWINE_PASSWORD
   on:
     tags: true
   skip_existing: true

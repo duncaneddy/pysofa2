@@ -14,7 +14,11 @@ before_script:
   - pip install -U -r requirements-dev.txt
 
 script:
+  # Install and build package
+  - pip install -e .
+  # Run tests
   - pytest --cov=pysofa2
+  # - pytest --cov=pysofa2 --cov-report html:coverage_report --cov-report term tests
   # - travis-sphinx --outdir docs/build build --source docs/source
 
 after_success:

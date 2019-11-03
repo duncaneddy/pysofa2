@@ -27,8 +27,9 @@ after_success:
   # - travis-sphinx --outdir docs/build deploy
 
 deploy:
-  provider: script
-  script: bash deploy.sh
+  provider: pypi
+  user: $PYPI_USERNAME
+  password: $PYPI_USERNAME
   on:
     tags: true
   skip_existing: true

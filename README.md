@@ -1,6 +1,6 @@
-| Testing | Coverage |
-| :-----: | :------: |
-| [![Build Status](https://travis-ci.org/duncaneddy/pysofa2.svg?branch=master)](https://travis-ci.org/duncaneddy/pysofa2) | [![Coverage Status](https://coveralls.io/repos/github/duncaneddy/pysofa2/badge.svg?branch=master)](https://coveralls.io/github/duncaneddy/pysofa2?branch=master) |
+| Testing | Coverage | PyPi |
+| :-----: | :------: | :--: |
+| [![Build Status](https://travis-ci.org/duncaneddy/pysofa2.svg?branch=master)](https://travis-ci.org/duncaneddy/pysofa2) | [![Coverage Status](https://coveralls.io/repos/github/duncaneddy/pysofa2/badge.svg?branch=master)](https://coveralls.io/github/duncaneddy/pysofa2?branch=master) | [![PyPI version](https://badge.fury.io/py/pysofa2.svg)](https://badge.fury.io/py/pysofa2) |
 
 # pysofa2
 

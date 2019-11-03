@@ -1,4 +1,4 @@
-__version__      = "18.1.30.5"
+__version__      = "18.1.30.6"
 __author__       = "Duncan Eddy"
 __author_email__ = "duncan.eddy@gmail.com"
 __description__  = "A wrapper of the International Astronomical Union\'s SOFA lbrary."

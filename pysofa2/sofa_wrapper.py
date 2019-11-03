@@ -846,7 +846,7 @@ def C2ixys(x, y, s):
     '''
 
     # Initialize return value
-    rc2i = _np.asmatrix(_np.zeros(shape=(3,3), dtype=float, order='C'))
+    rc2i = _np.zeros(shape=(3,3), dtype=float, order='C')
 
     # Main function call
     _sofa.iauC2ixys(x, y, s, rc2i)
@@ -966,7 +966,7 @@ def Pom00(xp, yp, sp):
     '''
 
     # Initialize return matrix
-    rpom = _np.asmatrix(_np.zeros(shape=(3,3), dtype=float, order='C'))
+    rpom = _np.zeros(shape=(3,3), dtype=float, order='C')
 
     # Main funciton call
     _sofa.iauPom00(float(xp), float(yp), float(sp), rpom)

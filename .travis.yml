@@ -1,34 +1,26 @@
 language: python
-
 notifications:
   email: false
-
 python:
-  - '3.6'
-  - '3.7'
-  - '3.8'
-
+- '3.6'
+- '3.7'
+- '3.8'
 dist: xenial
-
 before_script:
-  - pip install -U -r requirements.txt
-  - pip install -U -r requirements-dev.txt
-
+- pip install -U -r requirements.txt
+- pip install -U -r requirements-dev.txt
 script:
-  # Install and build package
-  - pip install -e .
-  # Run tests
-  - pytest --cov=pysofa2
-  # - pytest --cov=pysofa2 --cov-report html:coverage_report --cov-report term tests
-  # - travis-sphinx --outdir docs/build build --source docs/source
-
+- pip install -e .
+- pytest --cov=pysofa2
 after_success:
-  - coveralls
-  # - travis-sphinx --outdir docs/build deploy
-
+- coveralls
 deploy:
-  provider: script
-  script: bash deploy.sh
+  provider: pypi
+  user:
+    - secure: pySKXHi+b8WdKunyRCleLP7b6zsQ8l0oskQPfiGsaw93lqMYyBMA30dV4KdzdnpQkSSeeLfp6uvNDKfuuJyRyAkdVvvbhNZD7AKgJc3xhicDJlNWooL5+xJnMzUvLwCe5Gb6+0ciaJ/NSW+o/NKA/agD1XSa2dGVB7nnuCQJyktG71Zsj2VgjF/UxxCHCgfPRtyDJHjGw12tXCL/eHr1SuiBBpWwhYxmaJZHLY5knZwpCVc/rKpdIKA1NnjEvSmRIGWSijE7qjEqtY1cuc6RC6iEJxq2+aqtxCEmsiMY0dIl6YhnfdYakun9dTdCJPsKzzOs+9DSEkKeZMHMj/Cs7zyVQkKI4mto4T0RG+gg3t3guKtkehMLMWPQ/a2fZTGcunIcEZN+qnotli82l53LsBP9ho4T9iC81Ywap4+c1qBmALTyrt9elIYbA70I//0LGLPtbzzFCRmLR/ybMJys1asdcvV9Y/X3z25gPBP85rVFlSEqoXbrRqHlceFaAgrtaVo4GmDZSs22L99gbxa0SwAe0NprVkUVaNk4xHF8Fg2Dz6Q6qOM6SH0D7/2LcADkItFUoCeiI0XDo7JE56RBc+dYRPsYhGXGth6d2Updmk6F207c3Z8vFG9k3tlxtQ1wEsf4TfQcrudrsUfg3uRmxIBhE/4iudnwfmzqMowrUX0=
+  password:
+    - secure: tymEVpIVFnPvgDT7DPjxooGsvx1sfSBx4IDcMxwswKu4Usq6/WUz52ZWRVXqWbfiwD9oPFbvVRV96IMrwmaIKTkvhpp/rzwESPaEnaKQKpEIg64ZfXElkpT7m1X5uyoo4oYOT2Pc9i2mAdEgqN0Zw7ZieOvrBLr6CV1l54WUu1+T4bpX/nk+C0sCgcMJhhvKMqZL8tuJaLFdN4GKDAp1HDEqDXfOe8vpPVk3nsGKVN2hytI7wAzfOF1CIaAa/YpA4LeINMIf3SFHvDghpM/iMUvSgSvQ6fpIstNdUwIw65CXjeolDKw5GgqcGjAfwDPqR0Z7vP73I8PlN5ro/z4eLC3npYE/sQpzIaTDalX0ylXAST38UJkR6snXj3z7qnPEx8bIb/W2Vb7s66qaCEOSn375C7yO2jWaKhMABqYvyx/xdzCbsXjylLHae7OFedPN/5qqdf7ndE63twFbfz5bPuv4QaiTP8aNGgrz6B54xP4S55XklxnYBK4uy9a0oB8eKOp+OhdEk4JRekMIU29jCY1xij54nCPF2zsM2jtUTaO4JniltHvJUhL/NzyUm7B4Pc0HoQJ26CmXT2r65XNATZCFaikb9/xj5FvSlQPKxLPvsdF96divbT+FhHc+ItRk8Zx+wc+noHondy46OFmuWHlt2WgFfEbaGnEcq/mpmHg=
   on:
     tags: true
   skip_existing: true
+  skip_cleanup: true

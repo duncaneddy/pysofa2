@@ -1,4 +1,6 @@
 include src/sofa.h
 include src/sofam.h
+recursive-include src *
+include LICENSE
 include README.md
-recursive-include pysofa2/test/*
+include requirements.txt

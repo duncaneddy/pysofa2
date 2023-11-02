@@ -33,7 +33,7 @@
 #      make distclean     delete all generated binaries
 #      make realclean     same as distclean
 #
-# Last revision:   2018 January 26
+# Last revision:   2021 April 18
 #
 # Copyright International Astronomical Union.  All rights reserved.
 #
@@ -64,8 +64,8 @@ SOFA_INC_DIR = $(INSTALL_DIR)/include/
 # for functions, CFLAGX for executables) here.
 
 CCOMPC = gcc
-CFLAGF = -c -pedantic -Wall -W -O
-CFLAGX = -pedantic -Wall -W -O
+CFLAGF = -c -pedantic -Wall -O
+CFLAGX = -pedantic -Wall -O
 
 #----YOU SHOULDN'T HAVE TO MODIFY ANYTHING BELOW THIS LINE---------
 
@@ -111,6 +111,8 @@ SOFA_OBS = iauA2af.o \
            iauAper13.o \
            iauApio.o \
            iauApio13.o \
+           iauAtcc13.o \
+           iauAtccq.o \
            iauAtci13.o \
            iauAtciq.o \
            iauAtciqn.o \
@@ -183,7 +185,11 @@ SOFA_OBS = iauA2af.o \
            iauFasa03.o \
            iauFaur03.o \
            iauFave03.o \
+           iauFk425.o \
+           iauFk45z.o \
+           iauFk524.o \
            iauFk52h.o \
+           iauFk54z.o \
            iauFk5hip.o \
            iauFk5hz.o \
            iauFw2m.o \
@@ -219,6 +225,7 @@ SOFA_OBS = iauA2af.o \
            iauLtpb.o \
            iauLtpecl.o \
            iauLtpequ.o \
+           iauMoon98.o \
            iauNum00a.o \
            iauNum00b.o \
            iauNum06a.o \
@@ -357,7 +364,7 @@ uninstall:
 # Test the build.
 check: $(SOFA_TEST_NAME) $(SOFA_INC_NAMES) $(SOFA_LIB_NAME)
 	$(CCOMPC) $(CFLAGX) $(SOFA_TEST_NAME) $(SOFA_LIB_NAME) \
-        -lm -o $(SOFA_TEST)
+        -I. -lm -o $(SOFA_TEST)
 	./$(SOFA_TEST)
 
 # Test the installed library.
@@ -428,6 +435,10 @@ iauApio.o   : apio.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ apio.c
 iauApio13.o : apio13.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ apio13.c
+iauAtcc13.o : atcc13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atcc13.c
+iauAtccq.o  : atccq.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atccq.c
 iauAtci13.o : atci13.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ atci13.c
 iauAtciq.o  : atciq.c  sofa.h sofam.h
@@ -572,8 +583,16 @@ iauFaur03.o : faur03.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ faur03.c
 iauFave03.o : fave03.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ fave03.c
+iauFk425.o  : fk425.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ fk425.c
+iauFk45z.o  : fk45z.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ fk45z.c
+iauFk524.o  : fk524.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ fk524.c
 iauFk52h.o  : fk52h.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ fk52h.c
+iauFk54z.o  : fk54z.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ fk54z.c
 iauFk5hip.o : fk5hip.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ fk5hip.c
 iauFk5hz.o  : fk5hz.c  sofa.h sofam.h
@@ -644,6 +663,8 @@ iauLtpecl.o : ltpecl.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ ltpecl.c
 iauLtpequ.o : ltpequ.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ ltpequ.c
+iauMoon98.o : moon98.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ moon98.c
 iauNum00a.o : num00a.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ num00a.c
 iauNum00b.o : num00b.c sofa.h sofam.h

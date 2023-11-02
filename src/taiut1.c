@@ -1,4 +1,5 @@
 #include "sofa.h"
+#include "sofam.h"
 
 int iauTaiut1(double tai1, double tai2, double dta,
               double *ut11, double *ut12)
@@ -40,11 +41,11 @@ int iauTaiut1(double tai1, double tai2, double dta,
 **     Explanatory Supplement to the Astronomical Almanac,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992)
 **
-**  This revision:  2013 June 18
+**  This revision:  2021 May 11
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 **
 */
 {
@@ -53,7 +54,7 @@ int iauTaiut1(double tai1, double tai2, double dta,
 
 /* Result, safeguarding precision. */
    dtad = dta / DAYSEC;
-   if ( tai1 > tai2 ) {
+   if ( fabs(tai1) > fabs(tai2) ) {
       *ut11 = tai1;
       *ut12 = tai2 + dtad;
    } else {
@@ -64,10 +65,12 @@ int iauTaiut1(double tai1, double tai2, double dta,
 /* Status (always OK). */
    return 0;
 
+/* Finished. */
+
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================

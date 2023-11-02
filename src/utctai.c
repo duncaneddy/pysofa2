@@ -1,4 +1,5 @@
 #include "sofa.h"
+#include "sofam.h"
 
 int iauUtctai(double utc1, double utc2, double *tai1, double *tai2)
 /*
@@ -63,11 +64,11 @@ int iauUtctai(double utc1, double utc2, double *tai1, double *tai2)
 **     Explanatory Supplement to the Astronomical Almanac,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992)
 **
-**  This revision:  2013 July 26
+**  This revision:  2021 May 11
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 **
 */
 {
@@ -77,7 +78,7 @@ int iauUtctai(double utc1, double utc2, double *tai1, double *tai2)
 
 
 /* Put the two parts of the UTC into big-first order. */
-   big1 = ( utc1 >= utc2 );
+   big1 = ( fabs(utc1) >= fabs(utc2) );
    if ( big1 ) {
       u1 = utc1;
       u2 = utc2;
@@ -130,10 +131,12 @@ int iauUtctai(double utc1, double utc2, double *tai1, double *tai2)
 /* Status. */
    return j;
 
+/* Finished. */
+
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================

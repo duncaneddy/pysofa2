@@ -9,21 +9,49 @@
 **  Prototype function declarations for SOFA library.
 **
 **  This file is part of the International Astronomical Union's
-**  SOFA (Standards Of Fundamental Astronomy) software collection.
+**  SOFA (Standards of Fundamental Astronomy) software collection.
 **
-**  This revision:   2017 October 7
+**  This revision:   2023 April 16
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 */
 
-#include "sofam.h"
 #include "math.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* Star-independent astrometry parameters */
+typedef struct {
+   double pmt;        /* PM time interval (SSB, Julian years) */
+   double eb[3];      /* SSB to observer (vector, au) */
+   double eh[3];      /* Sun to observer (unit vector) */
+   double em;         /* distance from Sun to observer (au) */
+   double v[3];       /* barycentric observer velocity (vector, c) */
+   double bm1;        /* sqrt(1-|v|^2): reciprocal of Lorenz factor */
+   double bpn[3][3];  /* bias-precession-nutation matrix */
+   double along;      /* longitude + s' + dERA(DUT) (radians) */
+   double phi;        /* geodetic latitude (radians) */
+   double xpl;        /* polar motion xp wrt local meridian (radians) */
+   double ypl;        /* polar motion yp wrt local meridian (radians) */
+   double sphi;       /* sine of geodetic latitude */
+   double cphi;       /* cosine of geodetic latitude */
+   double diurab;     /* magnitude of diurnal aberration vector */
+   double eral;       /* "local" Earth rotation angle (radians) */
+   double refa;       /* refraction constant A (radians) */
+   double refb;       /* refraction constant B (radians) */
+} iauASTROM;
+/* (Vectors eb, eh, em and v are all with respect to BCRS axes.) */
+
+/* Body parameters for light deflection */
+typedef struct {
+   double bm;         /* mass of the body (solar masses) */
+   double dl;         /* deflection limiter (radians^2/2) */
+   double pv[2][3];   /* barycentric PV of the body (au, au/day) */
+} iauLDBODY;
 
 /* Astronomy/Calendars */
 int iauCal2jd(int iy, int im, int id, double *djm0, double *djm);
@@ -74,6 +102,13 @@ int iauApio13(double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
               double phpa, double tc, double rh, double wl,
               iauASTROM *astrom);
+void iauAtcc13(double rc, double dc,
+               double pr, double pd, double px, double rv,
+               double date1, double date2,
+               double *ra, double *da);
+void iauAtccq(double rc, double dc,
+              double pr, double pd, double px, double rv,
+              iauASTROM *astrom, double *ra, double *da);
 void iauAtci13(double rc, double dc,
                double pr, double pd, double px, double rv,
                double date1, double date2,
@@ -143,6 +178,7 @@ void iauRefco(double phpa, double tc, double rh, double wl,
 /* Astronomy/Ephemerides */
 int iauEpv00(double date1, double date2,
              double pvh[2][3], double pvb[2][3]);
+void iauMoon98(double date1, double date2, double pv[2][3]);
 int iauPlan94(double date1, double date2, int np, double pv[2][3]);
 
 /* Astronomy/FundamentalArgs */
@@ -296,10 +332,27 @@ int iauStarpv(double ra, double dec,
               double pv[2][3]);
 
 /* Astronomy/StarCatalogs */
+void iauFk425(double r1950, double d1950,
+              double dr1950, double dd1950,
+              double p1950, double v1950,
+              double *r2000, double *d2000,
+              double *dr2000, double *dd2000,
+              double *p2000, double *v2000);
+void iauFk45z(double r1950, double d1950, double bepoch,
+              double *r2000, double *d2000);
+void iauFk524(double r2000, double d2000,
+              double dr2000, double dd2000,
+              double p2000, double v2000,
+              double *r1950, double *d1950,
+              double *dr1950, double *dd1950,
+              double *p1950, double *v1950);
 void iauFk52h(double r5, double d5,
               double dr5, double dd5, double px5, double rv5,
               double *rh, double *dh,
               double *drh, double *ddh, double *pxh, double *rvh);
+void iauFk54z(double r2000, double d2000, double bepoch,
+              double *r1950, double *d1950,
+              double *dr1950, double *dd1950);
 void iauFk5hip(double r5h[3][3], double s5h[3]);
 void iauFk5hz(double r5, double d5, double date1, double date2,
               double *rh, double *dh);
@@ -479,8 +532,8 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3]);
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================

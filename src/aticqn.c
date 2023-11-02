@@ -3,9 +3,9 @@
 void iauAticqn(double ri, double di, iauASTROM *astrom,
                int n, iauLDBODY b[], double *rc, double *dc)
 /*
-**  - - - - - - - - -
+**  - - - - - - - - - -
 **   i a u A t i c q n
-**  - - - - - - - - -
+**  - - - - - - - - - -
 **
 **  Quick CIRS to ICRS astrometric place transformation, given the star-
 **  independent astrometry parameters plus a list of light-deflecting
@@ -44,11 +44,11 @@ void iauAticqn(double ri, double di, iauASTROM *astrom,
 **      eral   double       "local" Earth rotation angle (radians)
 **      refa   double       refraction constant A (radians)
 **      refb   double       refraction constant B (radians)
-**      n     int           number of bodies (Note 3)
-**      b     iauLDBODY[n] data for each of the n bodies (Notes 3,4):
-**       bm    double       mass of the body (solar masses, Note 5)
-**       dl    double       deflection limiter (Note 6)
-**       pv    [2][3]       barycentric PV of the body (au, au/day)
+**     n      int          number of bodies (Note 3)
+**     b      iauLDBODY[n] data for each of the n bodies (Notes 3,4):
+**      bm     double       mass of the body (solar masses, Note 5)
+**      dl     double       deflection limiter (Note 6)
+**      pv     [2][3]       barycentric PV of the body (au, au/day)
 **
 **  Returned:
 **     rc,dc  double     ICRS astrometric RA,Dec (radians)
@@ -102,11 +102,11 @@ void iauAticqn(double ri, double di, iauASTROM *astrom,
 **     iauC2s       p-vector to spherical
 **     iauAnp       normalize angle into range +/- pi
 **
-**  This revision:   2013 October 9
+**  This revision:   2021 January 6
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 */
 {
    int j, i;
@@ -182,8 +182,8 @@ void iauAticqn(double ri, double di, iauASTROM *astrom,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -275,5 +275,4 @@ void iauAticqn(double ri, double di, iauASTROM *astrom,
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/
-
 }

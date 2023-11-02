@@ -1,4 +1,5 @@
 #include "sofa.h"
+#include "sofam.h"
 
 int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2)
 /*
@@ -52,11 +53,11 @@ int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2)
 **
 **     IAU 2006 Resolution B3
 **
-**  This revision:  2013 June 18
+**  This revision:  2021 May 11
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 */
 {
 
@@ -74,7 +75,7 @@ int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2)
 
 
 /* Result, preserving date format but safeguarding precision. */
-   if ( tdb1 > tdb2 ) {
+   if ( fabs(tdb1) > fabs(tdb2) ) {
       d = t77td - tdb1;
       f  = tdb2 - tdb0;
       *tcb1 = tdb1;
@@ -82,17 +83,19 @@ int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2)
    } else {
       d = t77td - tdb2;
       f  = tdb1 - tdb0;
-      *tcb1 = f + ( d - ( f - t77tf ) ) * elbb;
+      *tcb1 = f - ( d - ( f - t77tf ) ) * elbb;
       *tcb2 = tdb2;
    }
 
 /* Status (always OK). */
    return 0;
 
+/* Finished. */
+
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================

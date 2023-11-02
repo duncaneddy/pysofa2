@@ -1,4 +1,5 @@
 #include "sofa.h"
+#include "sofam.h"
 
 int iauTttdb(double tt1, double tt2, double dtr,
              double *tdb1, double *tdb2)
@@ -50,11 +51,11 @@ int iauTttdb(double tt1, double tt2, double dtr,
 **
 **     IAU 2006 Resolution 3
 **
-**  This revision:  2013 June 18
+**  This revision:  2021 May 11
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 */
 {
    double dtrd;
@@ -62,7 +63,7 @@ int iauTttdb(double tt1, double tt2, double dtr,
 
 /* Result, safeguarding precision. */
    dtrd = dtr / DAYSEC;
-   if ( tt1 > tt2 ) {
+   if ( fabs(tt1) > fabs(tt2) ) {
       *tdb1 = tt1;
       *tdb2 = tt2 + dtrd;
    } else {
@@ -73,10 +74,12 @@ int iauTttdb(double tt1, double tt2, double dtr,
 /* Status (always OK). */
    return 0;
 
+/* Finished. */
+
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================

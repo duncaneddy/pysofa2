@@ -9,7 +9,7 @@ void iauTrxp(double r[3][3], double p[3], double trp[3])
 **  Multiply a p-vector by the transpose of an r-matrix.
 **
 **  This function is part of the International Astronomical Union's
-**  SOFA (Standards Of Fundamental Astronomy) software collection.
+**  SOFA (Standards of Fundamental Astronomy) software collection.
 **
 **  Status:  vector/matrix support function.
 **
@@ -18,7 +18,7 @@ void iauTrxp(double r[3][3], double p[3], double trp[3])
 **     p        double[3]      p-vector
 **
 **  Returned:
-**     trp      double[3]      r * p
+**     trp      double[3]      r^T * p
 **
 **  Note:
 **     It is permissible for p and trp to be the same array.
@@ -27,11 +27,11 @@ void iauTrxp(double r[3][3], double p[3], double trp[3])
 **     iauTr        transpose r-matrix
 **     iauRxp       product of r-matrix and p-vector
 **
-**  This revision:  2013 June 18
+**  This revision:  2021 May 11
 **
-**  SOFA release 2018-01-30
+**  SOFA release 2023-10-11
 **
-**  Copyright (C) 2018 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2023 IAU SOFA Board.  See notes at end.
 */
 {
    double tr[3][3];
@@ -43,12 +43,12 @@ void iauTrxp(double r[3][3], double p[3], double trp[3])
 /* Matrix tr * vector p -> vector trp. */
    iauRxp(tr, p, trp);
 
-   return;
+/* Finished. */
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2018
-**  Standards Of Fundamental Astronomy Board
+**  Copyright (C) 2023
+**  Standards of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================

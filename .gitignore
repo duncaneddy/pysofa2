@@ -67,3 +67,4 @@ script_outputs*
 
 # Platform Files
 .DS_Store
+.py-build-cmake_cache/

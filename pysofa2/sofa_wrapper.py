@@ -6,6 +6,7 @@ import numpy as _np
 import pathlib as _pathlib
 import glob as _glob
 
+
 # Import CTypes for interfacing
 import ctypes as _ct
 # from   ctypes.util import find_library as _find_library
@@ -13,12 +14,13 @@ from   numpy.ctypeslib import ndpointer as _ndpointer
 
 
 # Attempt to find sofa library to load
-_sofalib_filename = _glob.glob(str(_pathlib.Path(__file__).parent) + '/_sofa_c*')
+_sofalib_filename = _glob.glob(str(_pathlib.Path(__file__).parent) + '/_sofa_c.*')
 
 if len(_sofalib_filename) == 0:
     raise ImportError('Unable to find the shared C library "pysofa2._sofa_c".')
 
 _sofa = _ct.CDLL(_sofalib_filename[0])
+
 
 # Require C Shape
 def _req_shape_c(a, dtype=None, shape=None, req=None):

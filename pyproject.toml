@@ -1,0 +1,41 @@
+[project]
+name = "pysofa2"
+version = "23.10.11.1"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { "file" = "LICENSE" }
+authors = [{ "name" = "Duncan Eddy", "email" = "duncan.eddy@gmail.com" }]
+keywords = ["some", "keywords"]
+classifiers = ["Topic :: Scientific/Engineering :: Astronomy"]
+urls = { "Source" = "https://github.com/duncaneddy/pysofa2" }
+description = "A wrapper of the International Astronomical Union's SOFA lbrary."
+dependencies = [
+	"numpy >=1.16.1,<2.0.0"
+]
+
+
+[build-system] # How pip and other frontends should build this project
+requires = ["py-build-cmake~=0.1.8"]
+build-backend = "py_build_cmake.build"
+
+[tool.py-build-cmake.module] # Where to find the Python module to package
+directory = "."
+
+[tool.py-build-cmake.sdist] # What to include in source distributions
+include = ["CMakeLists.txt", "src/*"]
+
+[tool.py-build-cmake.cmake] # How to build the CMake project
+build_type = "RelWithDebInfo"
+source_path = "."
+build_args = ["-j"]
+install_components = ["python_module"]
+
+[tool.py-build-cmake.stubgen] # Whether and how to generate typed stub files
+
+[project.optional-dependencies]
+dev = [
+	"pytest >=5.0.0,<6.0.0",
+	"pytest-cov >=2.7.1,<3.0.0",
+	"coveralls>=1.8.1,<2.0.0",
+	"travis-tox>=0.1.0,<1.0.0"
+]

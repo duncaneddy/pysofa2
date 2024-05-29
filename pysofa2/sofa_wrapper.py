@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import warnings as _warnings
-import os as _os
 import numpy as _np
 import pathlib as _pathlib
 import glob as _glob
@@ -14,7 +13,8 @@ from   numpy.ctypeslib import ndpointer as _ndpointer
 
 
 # Attempt to find sofa library to load
-_sofalib_filename = _glob.glob(str(_pathlib.Path(__file__).parent) + '/_sofa_c.*')
+lib_path = str(_pathlib.Path(__file__).parent.parent) + '/.py-build-cmake_cache/*' + '/_sofa_c.*'
+_sofalib_filename = _glob.glob(lib_path)
 
 if len(_sofalib_filename) == 0:
     raise ImportError('Unable to find the shared C library "pysofa2._sofa_c".')
